@@ -15,10 +15,11 @@ public class MasterCardTransferService implements CardTransferService {
         if (sendingCard.checkCardLimitTransfer(amountTransfer)) {
             sendingCard.amount -= amountTransfer;
             receivingCard.amount += amountTransfer;
-            return new Check(amountTransfer, new Date(), sendingCard, "Operation declined");
-        }else{
-            System.out.println("limit exceeded error");
-            return new Check(Constants.MasterCardLimit, new Date(), sendingCard, "Operation declined");
+            return new Check(amountTransfer, new Date(), sendingCard, "operation approved");
+        }else if(amountTransfer <= 0){
+            return new Check(amountTransfer, new Date(), sendingCard, "operation declined");
+        }else {
+            return new Check(Constants.MasterCardLimit, new Date(), sendingCard, "limit exceeded error");
         }
 
 
